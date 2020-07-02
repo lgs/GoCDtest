@@ -1,0 +1,13 @@
+---
+- name: This sets up an httpd webserver
+  hosts: 192.168.0.42
+  gather_facts: no
+  connection: local
+  tasks:
+  - name: Install apache packages   
+    command: sudo /bin/yum -y install httpd
+  - name: ensure httpd is running
+    service:
+      name: httpd 
+      state: started
+    become: true
