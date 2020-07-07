@@ -14,7 +14,7 @@
     become: true
     
   tasks:
-  - name: Create a new HTML static page to test Apache Virtual Host:
+  - name: Create a new HTML static page to test Apache Virtual Host
     copy:
       dest: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/index.html"
       content: |    
