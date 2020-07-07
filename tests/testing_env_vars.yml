@@ -7,12 +7,12 @@
   - exec:
     arguments:
     - -c
-    - echo $SERVER_NAME
+    - "echo $SERVER_NAME"
     command: bash
     run_if: passed
   - exec:
     arguments:
     - -c
-    - echo $SERVER_ALIAS
+    - "echo $SERVER_ALIAS"
     command: bash
     run_if: passed
