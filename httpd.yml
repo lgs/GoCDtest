@@ -11,3 +11,13 @@
       name: httpd 
       state: started
     become: true
+  tasks:
+  - name: Create Virtual Host configuration file in /etc/httpd/sites-available
+    copy:
+      dest: "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
+      content: |
+        <VirtualHost *:80>
+          ServerName {{ lookup('env','SERVER_NAME') }}
+          ServerAlias {{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}
+          DocumentRoot /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
+        </VirtualHost>
