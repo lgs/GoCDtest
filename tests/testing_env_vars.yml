@@ -7,13 +7,7 @@
   - exec:
     arguments:
     - -c
-    - "echo $SERVER_NAME"
-    command: bash
-    run_if: passed
-  - exec:
-    arguments:
-    - -c
     - "echo $SERVER_ALIAS"
     command: bash
     run_if: passed
-    debugger: on_failed
+  debugger: on_failed
