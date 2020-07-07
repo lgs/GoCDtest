@@ -16,3 +16,4 @@
     - "echo $SERVER_ALIAS"
     command: bash
     run_if: passed
+    debugger: on_failed
