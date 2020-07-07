@@ -44,3 +44,4 @@
     service:
       name: httpd 
       state: restarted
+    become: true
