@@ -3,14 +3,16 @@
   hosts: 127.0.0.1
   gather_facts: no
   connection: local
+  
   tasks:
   - name: Install apache packages   
     command: sudo /bin/yum -y install httpd
-  - name: ensure httpd is running
+  - name: Ensure httpd is running
     service:
       name: httpd 
       state: started
     become: true
+    
   tasks:
   - name: Create Virtual Host configuration file in /etc/httpd/sites-available
     copy:
@@ -21,8 +23,15 @@
           ServerAlias {{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}
           DocumentRoot /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
         </VirtualHost>
+        
   tasks:
   - name: Enabling the new Virtual Host configuration
     command: /bin/ln -s "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf" \
                         "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
                         
+  tasks:                        
+  - name: Restart Apache httpd to take configurations
+    service:
+      name: httpd 
+      state: restarted
+    become: true
