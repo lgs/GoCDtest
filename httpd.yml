@@ -12,9 +12,8 @@
       state: started
     become: true
   tasks:
-  - name: Create /var/www/*/public_html/index.html dir, to host a new HTML static page
-    command: /bin/ln -s "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf" \
-                        "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
+  - name: Create /var/www/*/public_html/ dir, to host a new HTML static page
+    command: /bin/mkdir -p "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
   tasks:
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
