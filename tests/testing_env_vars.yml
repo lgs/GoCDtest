@@ -1,3 +1,10 @@
-- debug: 
-    msg="{{ lookup('env','ALIAS') }} is $ALIAS environment variable from GoCD MyNewEnv"
-    msg="{{ lookup('env','SERVER_NAME') }} is $SERVER_NAME environment variable from GoCD MyNewEnv"
+---
+- name: Running Tests
+  hosts: 127.0.0.1
+  gather_facts: no
+  connection: local
+  tasks:
+  - name: Testing GoCD environment variables   
+    - debug: 
+      msg="{{ lookup('env','ALIAS') }} is $ALIAS environment variable from GoCD MyNewEnv"
+      msg="{{ lookup('env','SERVER_NAME') }} is $SERVER_NAME environment variable from GoCD MyNewEnv"
