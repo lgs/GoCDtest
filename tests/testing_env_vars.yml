@@ -1,10 +1,18 @@
 ---
-- name: Running Tests
+- name: Testing GoCD environment variables   
   hosts: 127.0.0.1
   gather_facts: no
-  connection: local
+  connection: local     
   tasks:
-  - name: Testing GoCD environment variables   
-    - debug: 
-      msg="{{ lookup('env','SERVER_ALIAS') }} is $ALIAS environment variable from GoCD MyNewEnv"
-      msg="{{ lookup('env','SERVER_NAME') }} is $SERVER_NAME environment variable from GoCD MyNewEnv"
+    - exec:
+        arguments:
+          - -c
+          - echo $SERVER_NAME
+        command: bash
+        run_if: passed
+    - exec:
+        arguments:
+          - -c
+          - echo $SERVER_ALIAS
+        command: bash
+        run_if: passed
