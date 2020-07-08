@@ -40,7 +40,7 @@
   - name: Enabling the new Virtual Host configuration
     command: /bin/ln -s "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf" \
                         "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
-    warn: false
+      warn: false
   - name: Restart Apache httpd to take configurations
     systemd:
       name: httpd
