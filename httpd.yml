@@ -12,6 +12,7 @@
       state: started
     become: true
   - name: Create /var/www/*/public_html/ to host new HTML static page
+    command: /bin/mkdir -p "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
     file: 
       path: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
       state: directory
