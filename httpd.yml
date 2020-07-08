@@ -4,7 +4,7 @@
   gather_facts: no
   connection: local
   vars:
-    server_alias: {{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}
+    server_alias: "{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}"
   tasks:
   - name: Install apache packages   
     command: sudo /bin/yum -y install httpd
