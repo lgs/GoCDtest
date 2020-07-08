@@ -13,9 +13,6 @@
     become: true
   - name: Create /var/www/*/public_html/ to host new HTML static page
     command: /bin/mkdir -p "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
-    file: 
-      path: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
-      state: directory
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
       dest: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/index.html"
