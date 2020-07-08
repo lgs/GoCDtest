@@ -13,12 +13,8 @@
       state: started
     become: true
   - name: Create nested dirs to host new HTML static page
-    file:
-      path: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}"
-      state: directory
-      with_nested: public_html
-      owner: go
-      group: apache      
+    shell:
+     cmd: mkdir -p "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
       dest: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/index.html"
