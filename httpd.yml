@@ -5,7 +5,8 @@
   connection: local
   tasks:
   - name: Install apache packages   
-    command: sudo /bin/yum -y install httpd
+    command: /bin/yum -y install httpd
+    become: true
   - name: Ensure httpd is running
     service:
       name: httpd 
@@ -13,6 +14,7 @@
     become: true
   - name: Create /var/www/*/public_html/ to host new HTML static page
     command: /bin/mkdir -p "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
+    warn: false
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
       dest: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/index.html"
@@ -37,7 +39,8 @@
         </VirtualHost>        
   - name: Enabling the new Virtual Host configuration
     command: /bin/ln -s "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf" \
-                        "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"                                             
+                        "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
+    warn: false
   - name: Restart Apache httpd to take configurations
     systemd:
       name: httpd
