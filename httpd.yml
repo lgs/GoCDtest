@@ -12,7 +12,7 @@
       name: httpd 
       state: started
     become: true
-  - name: Create /var/www/*/public_html/ to host new HTML static page
+  - name: Create new dir to host new HTML static page
     command: /bin/mkdir -p "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
     warn: false
   - name: Create a new HTML static page to test Apache Virtual Host
