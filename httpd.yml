@@ -12,8 +12,10 @@
       state: started
     become: true
   tasks:
-  - name: Create /var/www/*/public_html/ dir, to host a new HTML static page
-    command: /bin/mkdir -p "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
+  - name: Create /var/www/<SERVER_ALIAS>/public_html/ to host new HTML static page
+    file: 
+      path: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
+      state: directory
   tasks:
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
@@ -48,3 +50,5 @@
       name: httpd
       state: restarted
       daemon-reload: yes
+    become: true
+
