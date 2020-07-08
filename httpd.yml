@@ -15,6 +15,7 @@
   - name: Create nested dirs to host new HTML static page
     shell:
      cmd: mkdir -p /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/
+    become: true
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
       dest: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/index.html"
