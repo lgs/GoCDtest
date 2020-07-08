@@ -11,7 +11,6 @@
       name: httpd 
       state: started
     become: true
-  tasks:
   - name: Create /var/www/*/public_html/ to host new HTML static page
     file: 
       path: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
@@ -29,7 +28,6 @@
             <h2>This is a test page for the new {{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}</h2>
           </body>
         </html>    
-  tasks:
   - name: Create Virtual Host configuration file in /etc/httpd/sites-available
     copy:
       dest: "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
@@ -39,11 +37,9 @@
           ServerAlias {{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}
           DocumentRoot /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
         </VirtualHost>        
-  tasks:
   - name: Enabling the new Virtual Host configuration
     command: /bin/ln -s "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf" \
-                        "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"                        
-  tasks:                        
+                        "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"                                             
   - name: Restart Apache httpd to take configurations
     systemd:
       name: httpd
