@@ -1,6 +1,5 @@
 ---
 - name: This sets up an httpd webserver
-  warn: false
   hosts: 127.0.0.1
   gather_facts: no
   connection: local
@@ -14,8 +13,9 @@
       state: started
     become: true
   - name: Create new dir to host new HTML static page
-    warn: false
     command: /bin/mkdir -p "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/"
+    become: true
+    warn: false
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
       dest: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/index.html"
