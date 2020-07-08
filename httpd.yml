@@ -44,7 +44,7 @@
                         "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"                        
   tasks:                        
   - name: Restart Apache httpd to take configurations
-    service:
-      name: httpd 
-      state: restarted
-    become: true
+    systemd:
+      name: httpd
+      state: reload
+      daemon-reload: yes
