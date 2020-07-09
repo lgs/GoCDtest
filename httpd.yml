@@ -15,13 +15,12 @@
       state: started
     become: true
 
-  - name: Create nested dirs to host new HTML static page
-    shell:
-     cmd: mkdir -p /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/
-     
-  - name: Get write 
-    shell:
-     cmd: sudo chmod 00775 -R /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/
+  - name: Create web dir for VirtualHost staic pages
+    file:
+      path: /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
+      state: directory
+      owner: go
+      group: domain_users
     
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
