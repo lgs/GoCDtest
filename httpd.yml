@@ -21,7 +21,7 @@
       state: directory
       owner: apache
       group: apache
-      mode: 0755
+      mode: u=rwX,g=srX,o=rX
     
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
