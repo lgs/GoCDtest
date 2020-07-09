@@ -19,7 +19,7 @@
     file:
       path: /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
       state: directory
-      owner: apache
+      owner: go
       group: apache
       mode: u=rwX,g=srX,o=rX
     
