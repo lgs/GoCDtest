@@ -8,6 +8,8 @@
   - name: Install apache packages   
     command: /bin/yum -y install httpd
     become: true
+    args:
+      warn: false
     
   - name: Ensure httpd is running
     service:
