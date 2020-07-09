@@ -1,21 +1,28 @@
 ---
-- name: This sets up an httpd webserver
+- name: Set up an httpd webserver
   hosts: 127.0.0.1
   gather_facts: no
   connection: local
+  
   tasks:
   - name: Install apache packages   
     command: /bin/yum -y install httpd
     become: true
+    
   - name: Ensure httpd is running
     service:
       name: httpd 
       state: started
     become: true
+    
   - name: Create nested dirs to host new HTML static page
-    shell:
-     cmd: mkdir -p /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/
-    become: true
+    file:
+      path: /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
+      state: directory
+      owner: apache
+      group: apache
+      mode: 0775
+    
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
       dest: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/index.html"
