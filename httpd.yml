@@ -19,9 +19,9 @@
     file:
       path: /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
       state: directory
-      owner: go
+      owner: apache
       group: apache
-      mode: u=rwX,g=srX,o=rX
+      mode: 0755
     
   - name: Create a new HTML static page to test Apache Virtual Host
     copy:
