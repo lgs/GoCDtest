@@ -4,7 +4,19 @@
   gather_facts: no
   connection: local
   
-  tasks: 
+  tasks:
+  - name: Install apache packages   
+    command: /bin/yum -y install httpd
+    become: true
+    args:
+      warn: false
+    
+  - name: Ensure httpd is running
+    service:
+      name: httpd 
+      state: started
+    become: true
+  
   - name: Create web dir for VirtualHost staic pages
     file:
       path: /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
