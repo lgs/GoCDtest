@@ -1,0 +1,51 @@
+---
+- name: Set up an httpd webserver
+  hosts: 127.0.0.1
+  gather_facts: no
+  connection: local
+  
+  tasks: 
+  - name: Create web dir for VirtualHost staic pages
+    file:
+      path: /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
+      state: directory
+      owner: go
+      group: domain_users
+      mode: 0755      
+    
+  - name: Create a new HTML static page to test Apache Virtual Host
+    copy:
+      dest: "/var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html/index.html"
+      content: |    
+        <html>
+          <head>
+            <title>{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}</title>
+          </head>
+          <body>
+            <h1>It works!</h1>
+            <h1>VirtualHost name: {{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}</h1>
+          </body>
+        </html>    
+        
+  - name: Create Virtual Host configuration file in /etc/httpd/sites-available
+    copy:
+      dest: "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
+      content: |
+        <VirtualHost *:80>
+          ServerName {{ lookup('env','SERVER_NAME') }}
+          ServerAlias {{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}
+          DocumentRoot /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
+        </VirtualHost>      
+        
+  - name: Enabling the new Virtual Host configuration
+    command: /bin/ln -s "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf" \
+                        "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
+    args:
+      warn: false
+      
+  - name: Restart Apache httpd to take configurations
+    systemd:
+      name: httpd
+      state: restarted
+      daemon-reload: yes
+    become: true
