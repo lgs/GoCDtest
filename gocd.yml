@@ -14,16 +14,15 @@ pipelines:
            build:
            
              tasks:
-              - name: This sets up an httpd webserver
+              - name: This sets up an httpd webserver on ls-k8s1-000-021
                 hosts: 192.168.0.19
+                
+              - name: Install apache packages 
+                yum:
+                  name: httpd
+                  state: present
 
-                tasks:
-                - name: Install apache packages 
-                  yum:
-                    name: httpd
-                    state: present
-
-                - name: ensure httpd is running
-                  service:
-                    name: httpd 
-                    state: started                 
+              - name: ensure httpd is running
+                service:
+                  name: httpd 
+                  state: started                 
