@@ -49,11 +49,19 @@
           DocumentRoot /var/www/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}/public_html
         </VirtualHost>      
         
+  #- name: Enabling the new Virtual Host configuration
+  #  command: /bin/ln -s "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf" \
+  #                      "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
+  #  args:
+  #    warn: false
+  
   - name: Enabling the new Virtual Host configuration
-    command: /bin/ln -s "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf" \
-                        "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
-    args:
-      warn: false
+    file:
+      src: "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
+      dest: "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
+      owner: go
+      group: domain_users
+      state: link      
       
   - name: Restart Apache httpd to take configurations
     systemd:
