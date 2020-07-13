@@ -1,0 +1,20 @@
+format_version: 3
+pipelines:
+  "pipelineasacode":
+    group: gocd
+    materials:
+      git:
+        git: https://github.com/lgs/GoCDtest
+        blacklist:
+          - README.md
+    stages:
+      - build:
+          clean_workspace: true
+          jobs:
+           build:
+             tasks:
+              - exec:
+                 run_if: passed
+                 command: /bin/sh
+                 argumnets: 
+                 - ./scripts/commit/build.sh
