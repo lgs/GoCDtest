@@ -1,28 +1,30 @@
 format_version: 3
 pipelines:
-  "pipelineasacode":
-    group: gocd
+  ApacheServer:
+    group: TestingGroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
     materials:
       git:
         git: https://github.com/lgs/GoCDtest
-        blacklist:
-          - README.md
+        shallow_clone: false
+        auto_update: true
+        branch: master
     stages:
-      - build:
-          clean_workspace: true
-          jobs:
-           build:
-           
-             tasks:
-              - name: This sets up an httpd webserver on ls-k8s1-000-021
-                hosts: 192.168.0.19
-                
-              - name: Install apache packages 
-                yum:
-                  name: httpd
-                  state: present
-
-              - name: ensure httpd is running
-                service:
-                  name: httpd 
-                  state: started                 
+    - InstallingApacheServer:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          ApacheServerUpAndRunning:
+            timeout: 0
+            tasks:
+            - exec:
+                arguments:
+                - httpd.yml
+                command: /bin/ansible-playbook
+                run_if: passed
