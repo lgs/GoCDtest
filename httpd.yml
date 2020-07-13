@@ -1,18 +1,25 @@
 ---
-- name: Set up an httpd webserver
-  hosts: 127.0.0.1
-  gather_facts: no
-  connection: local
+- name: This sets up an httpd webserver
+  hosts: 192.168.0.19
   
   tasks:
-  - name: Install apache packages   
-    command: /bin/yum -y install httpd
-    become: true
-    args:
-      warn: false
-    
-  - name: Ensure httpd is running
+  - name: Install apache packages 
+    yum:
+      name: httpd
+      state: present
+      
+  - name: ensure httpd is running
     service:
       name: httpd 
       state: started
-    become: true
+  
+  ############# firewalld #############
+  #- name: Open port 80 for http access
+  #  firewalld:
+  #    service: http
+  #    permanent: true
+  #    state: enabled
+  #- name: Restart the firewalld service to load in the firewall changes
+  #  service: 
+  #    name: firewalld 
+  #    state: restarted
