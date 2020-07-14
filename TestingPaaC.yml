@@ -25,6 +25,6 @@ pipelines:
             tasks:
             - exec:
                 arguments:
-                - "Hello from TestingPipelineAsACode > defaultStage > defaultJob"
+                - Hello from TestingPipelineAsACode > defaultStage > defaultJob
                 command: /usr/bin/echo
                 run_if: passed
