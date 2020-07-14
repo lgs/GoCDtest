@@ -1,6 +1,6 @@
 format_version: 3
 pipelines:
-  ApacheServer:
+  TestingPipelineAsACode:
     group: TestingGroup
     label_template: ${COUNT}
     lock_behavior: none
@@ -12,7 +12,7 @@ pipelines:
         auto_update: true
         branch: master
     stages:
-    - InstallingApacheServer:
+    - defaultStage:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -20,11 +20,11 @@ pipelines:
           type: success
           allow_only_on_success: false
         jobs:
-          ApacheServerUpAndRunning:
+          defaultJob:
             timeout: 0
             tasks:
             - exec:
                 arguments:
-                - httpd.yml
+                - tests/testing_env_vars.yml
                 command: /bin/ansible-playbook
                 run_if: passed
