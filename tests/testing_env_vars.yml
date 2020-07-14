@@ -10,8 +10,7 @@
   - exec:
     arguments:
     - -c
-    #- "echo $SERVER_ALIAS"
-    - "echo testing works"
+    - "echo $SERVER_ALIAS"
     command: bash
     run_if: passed
   debugger: on_failed
