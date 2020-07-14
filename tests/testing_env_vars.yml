@@ -3,6 +3,9 @@
   hosts: 127.0.0.1
   gather_facts: no
   connection: local     
+  vars_files:
+  - vars/defaults.yml
+   
   tasks:
   - exec:
     arguments:
