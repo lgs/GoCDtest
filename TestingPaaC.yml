@@ -25,6 +25,6 @@ pipelines:
             tasks:
             - exec:
                 arguments:
-                - tests/testing_env_vars.yml
-                command: /bin/ansible-playbook
+                - "Hello from TestingPipelineAsACode > defaultStage > defaultJob"
+                command: /usr/bin/echo
                 run_if: passed
