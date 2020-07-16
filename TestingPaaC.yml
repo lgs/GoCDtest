@@ -1,7 +1,7 @@
-format_version: 9
+format_version: 3
 pipelines:
-  TestingPipelineAsACode:
-    group: TestingGroup
+  InstallingApacheServer:
+    group: Apache
     label_template: ${COUNT}
     lock_behavior: none
     display_order: -1
@@ -12,7 +12,7 @@ pipelines:
         auto_update: true
         branch: master
     stages:
-    - defaultStage:
+    - DeployApacheWithAnsible:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -20,12 +20,28 @@ pipelines:
           type: success
           allow_only_on_success: false
         jobs:
-          defaultJob:
+          ansible-playbook:
+            timeout: 0
+            tasks:
+            - exec:
+                arguments:
+                - vHost.yml
+                command: /bin/ansible-playbook
+                run_if: passed
+    - TestingJobs:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          TestingGoCDEnvironmentVariables:
             timeout: 0
             tasks:
             - exec:
                 arguments:
                 - -c
-                - echo "Hello world by TestingPipelineAsACode"
+                - echo $SERVER_NAME
                 command: sh
                 run_if: passed
