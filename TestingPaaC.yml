@@ -25,6 +25,7 @@ pipelines:
             tasks:
             - exec:
                 arguments:
-                - -c -lart
-                command: /usr/bin/sh
+                - -c
+                - echo $SERVER_NAME
+                command: sh
                 run_if: passed
