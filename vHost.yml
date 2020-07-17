@@ -5,17 +5,6 @@
   connection: local
   
   tasks:
-  - name: Install apache packages   
-    command: /bin/yum -y install httpd
-    become: true
-    args:
-      warn: false
-    
-  - name: Ensure httpd is running
-    service:
-      name: httpd 
-      state: started
-    become: true
   
   - name: Create web dir for VirtualHost staic pages
     file:
@@ -55,7 +44,7 @@
   #  args:
   #    warn: false
   
-  - name: Enabling the new Virtual Host configuration
+  - name: Enabling the new Virtual Host configuration (via symbolic link)
     file:
       src: "/etc/httpd/sites-available/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
       dest: "/etc/httpd/sites-enabled/{{ lookup('env','ALIAS') }}.{{ lookup('env','SERVER_NAME') }}.conf"
